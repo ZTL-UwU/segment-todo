@@ -1,0 +1,46 @@
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    background-color: #eeeeee;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #eeeeee;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #b3b3b3;
+    transition: all 0.5s;
+}
+
+*::selection {
+    background-color: #b9d7ff;
+    opacity: 0.2;
+}
+
+*::-moz-selection {
+    background-color: #b9d7ff;
+    opacity: 0.2;
+}
+
+*::-webkit-selection {
+    background-color: #b9d7ff;
+    opacity: 0.2;
+}
+
+.el-menu {
+    border-right: none !important;
+}
+
+.el-progress-bar {
+    padding-right: 0 !important;
+}
+
+.text-bold {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+pre {
+    margin: 0;
+}

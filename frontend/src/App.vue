@@ -49,9 +49,9 @@
             :percentage="process"
             :format="() => ''"
             v-if="!first_entry"
-            style="margin-left: 60px; margin-right: 60px"
+            class="process-bar"
           ></el-progress>
-          <h1 style="margin-left: 80px; margin-right: 80px; color: #606266;">
+          <h1 class="list-name">
             {{ todo_list.name }}
           </h1>
           <el-card class="list" v-if="!first_entry">
@@ -64,25 +64,24 @@
                     class="finished-checkbox"
                   ></el-checkbox>
                   {{ item.title }}
-                  <span style="margin-left: 20px">
+                  <span class="importance-icon">
                     <i
                       v-for="i of Math.min(item.importance, 10)"
                       :key="i"
                       class="el-icon-warning-outline"
-                      style="color: #f56c6c"
                     ></i>
                   </span>
                 </template>
-                <pre style="margin: 0">{{ item.content }}</pre>
+                <pre>{{ item.content }}</pre>
                 <el-button
                   icon="el-icon-edit"
-                  style="float: right"
-                  circle
+                  class="edit-button"
                   @click="show_edit_item(i)"
+                  circle
                 ></el-button>
               </el-collapse-item>
             </el-collapse>
-            <el-button-group style="margin-top: 20px">
+            <el-button-group class="list-bottom-button">
               <el-button @click="show_add_item" type="primary">
                 <i class="el-icon-plus" />
                 Create New Item
@@ -95,8 +94,8 @@
             <el-button
               @click="collapse_all_item"
               icon="el-icon-minus"
-              style="float: right; margin-top: 20px"
               v-if="this.open_item.length != 0"
+              class="collapse-button"
               circle
             ></el-button>
           </el-card>
@@ -370,11 +369,6 @@ body {
   overflow-y: scroll;
 }
 
-.text-bold {
-  font-size: 18px;
-  font-weight: 500;
-}
-
 .list {
   margin: 80px;
   margin-top: 20px;
@@ -399,41 +393,32 @@ body {
   text-align: center;
 }
 
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-  background-color: #eeeeee;
+.process-bar {
+  margin-left: 60px;
+  margin-right: 60px;
 }
 
-::-webkit-scrollbar-track {
-  background-color: #eeeeee;
+.list-name {
+  margin-left: 80px;
+  margin-right: 80px;
+  color: #606266;
 }
 
-::-webkit-scrollbar-thumb {
-  background-color: #b3b3b3;
-  transition: all 0.5s;
+.importance-icon {
+  margin-left: 20px;
+  color: #f56c6c;
 }
 
-*::selection {
-  background-color: #b9d7ff;
-  opacity: 0.2;
+.edit-button {
+  float: right;
 }
 
-*::-moz-selection {
-  background-color: #b9d7ff;
-  opacity: 0.2;
+.list-bottom-button {
+  margin-top: 20px;
 }
 
-*::-webkit-selection {
-  background-color: #b9d7ff;
-  opacity: 0.2;
-}
-
-.el-menu {
-  border-right: none !important;
-}
-
-.el-progress-bar {
-  padding-right: 0 !important;
+.collapse-button {
+  float: right;
+  margin-top: 20px;
 }
 </style>

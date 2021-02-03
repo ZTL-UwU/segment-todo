@@ -24,6 +24,8 @@ import locale from 'element-ui/lib/locale/lang/en';
 import ElementUI from 'element-ui';
 Vue.use(ElementUI, { locale });
 
+import './assets/css/basic.css';
+
 new Vue({
   render: h => h(App),
 }).$mount('#app');
