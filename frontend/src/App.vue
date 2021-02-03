@@ -102,7 +102,7 @@
           </el-card>
           <el-card v-else class="list">
             <div class="box">
-              <div class="logo">SOJ Todo</div>
+              <div class="logo">Segment Todo</div>
               <el-divider />
               <div class="message">Click to a Todo List or create a new one</div>
             </div>
