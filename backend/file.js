@@ -6,7 +6,7 @@ module.exports.write_file = function write_file(data) {
     const file_path = process.env.cfg || './todo.json';
 
     fs.writeFileSync(file_path, data, 'utf8', (err) => {
-        console.log(`Err when writing file to ${file_path}`);
+        console.log(`Err when writing file to ${file_path} (${err})`);
         process.exit(1);
     });
 };
