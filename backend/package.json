@@ -1,0 +1,21 @@
+{
+  "name": "segment-todo-backend",
+  "version": "1.0.0",
+  "description": "Simple live todo list for group project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Web",
+    "todo",
+    "app",
+    "server"
+  ],
+  "author": "zhangtianli2006",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^3.1.0"
+  }
+}
