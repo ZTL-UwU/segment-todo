@@ -53,6 +53,7 @@
           ></el-progress>
           <h1 class="list-name">
             {{ todo_list.name }}
+            <el-tag type="success" v-if="todo_list.finished">Achieved</el-tag>
           </h1>
           <el-card class="list" v-if="!first_entry">
             <el-collapse v-model="open_item" v-for="(item, i) in todo_list.list" :key="i">
@@ -86,9 +87,9 @@
                 <i class="el-icon-plus" />
                 Create New Item
               </el-button>
-              <el-button @click="achieve_list" :type="achieve_button_color">
+              <el-button @click="achieve_list" :type="achieve_button_color" :plain="achieve_button_style">
                 <i class="el-icon-check"></i>
-                Achieve Todo List
+                Achieve
               </el-button>
             </el-button-group>
             <el-button
@@ -212,8 +213,11 @@ export default {
   },
   computed: {
     achieve_button_color() {
-      return this.process == 100 ? "primary" : "danger";
+      return this.process == 100 ? "success" : "info";
     },
+    achieve_button_style() {
+      return this.process == 100 ? false : true;
+    }
   },
   mounted() {
     window.todo_list_change_callback = (val) => {
@@ -361,11 +365,13 @@ body {
 .left-screen {
   background-color: #545c64;
   height: 100vh;
+  overflow-x: hidden;
   overflow-y: scroll;
 }
 
 .right-screen {
   height: 100vh;
+  overflow-x: hidden;
   overflow-y: scroll;
 }
 
