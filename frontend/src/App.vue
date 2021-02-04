@@ -158,7 +158,8 @@
             type="textarea"
             v-model="edit_item_form.content"
             autocomplete="off"
-            maxlength="50"
+            maxlength="1000"
+            :autosize="{ minRows: 2 }"
             show-word-limit
           ></el-input>
         </el-form-item>
@@ -168,8 +169,6 @@
             v-model="edit_item_form.importance"
             :min="0"
             :max="10"
-            maxlength="1000"
-            :autosize="{ minRows: 2 }"
             show-word-limit
           ></el-input-number>
         </el-form-item>
