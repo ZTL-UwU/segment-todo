@@ -8,39 +8,39 @@
           active-text-color="#ffffff"
         >
           <el-menu-item
-            v-for="(item, i) in this.active_list"
-            :key="i"
-            :index="i"
-            @click="look(item.name)"
+            v-for="item in this.active_list"
+            :key="item.id"
+            :index="item.id"
+            @click="look(item.id)"
           >
-            <span slot="title" class="text-bold">
-              <i class="el-icon-menu" />
+            <span class="text-bold">
+              <el-icon><MenuIcon /></el-icon>
               {{ item.name }}
             </span>
           </el-menu-item>
           <el-menu-item index="new" @click="add_list">
-            <span slot="title" class="text-bold">
-              <i class="el-icon-plus" />
+            <span class="text-bold">
+              <el-icon><Plus /></el-icon>
               Create Todo List
             </span>
           </el-menu-item>
-          <el-submenu index="achieved">
-            <span slot="title" class="text-bold">
-              <i class="el-icon-check" />
+          <el-sub-menu index="achieved">
+            <template #title>
+              <el-icon><Check /></el-icon>
               Achieved Todo Lists
-            </span>
+            </template>
             <el-menu-item
-              v-for="(item, i) in this.achieved_list"
-              :key="i"
-              :index="`'ach-'${i}`"
-              @click="look(item.name)"
+              v-for="item in this.achieved_list"
+              :key="item.id"
+              :index="`ach-${item.id}`"
+              @click="look(item.id)"
             >
-              <span slot="title" class="text-bold">
-                <i class="el-icon-menu" />
+              <span class="text-bold">
+                <el-icon><MenuIcon /></el-icon>
                 {{ item.name }}
               </span>
             </el-menu-item>
-          </el-submenu>
+          </el-sub-menu>
         </el-menu>
       </el-col>
       <el-col :span="19" class="right-screen">
@@ -58,7 +58,7 @@
           <el-card class="list" v-if="!first_entry">
             <el-collapse v-model="open_item" v-for="(item, i) in todo_list.list" :key="i">
               <el-collapse-item :name="i" :disabled="item.finished">
-                <template slot="title">
+                <template #title>
                   <el-checkbox
                     v-model="item.finished"
                     @change="finish_item(i, item.finished)"
@@ -66,39 +66,42 @@
                   ></el-checkbox>
                   {{ item.title }}
                   <span class="importance-icon">
-                    <i
+                    <el-icon
                       v-for="i of Math.min(item.importance, 10)"
                       :key="i"
-                      class="el-icon-warning-outline"
-                    ></i>
+                    >
+                      <Warning />
+                    </el-icon>
                   </span>
                 </template>
                 <pre>{{ item.content }}</pre>
                 <el-button
-                  icon="el-icon-edit"
                   class="edit-button"
                   @click="show_edit_item(i)"
                   circle
-                ></el-button>
+                >
+                  <el-icon><Edit /></el-icon>
+                </el-button>
               </el-collapse-item>
             </el-collapse>
             <el-button-group class="list-bottom-button">
               <el-button @click="show_add_item" type="primary">
-                <i class="el-icon-plus" />
+                <el-icon><Plus /></el-icon>
                 Create New Item
               </el-button>
               <el-button @click="achieve_list" :type="achieve_button_color" :plain="achieve_button_style">
-                <i class="el-icon-check"></i>
+                <el-icon><Check /></el-icon>
                 Achieve
               </el-button>
             </el-button-group>
             <el-button
               @click="collapse_all_item"
-              icon="el-icon-minus"
               v-if="this.open_item.length != 0"
               class="collapse-button"
               circle
-            ></el-button>
+            >
+              <el-icon><Minus /></el-icon>
+            </el-button>
           </el-card>
           <el-card v-else class="list">
             <div class="box">
@@ -111,7 +114,7 @@
       </el-col>
     </el-row>
 
-    <el-dialog title="Create Todo Item" :visible.sync="add_item_dialog_visible">
+    <el-dialog title="Create Todo Item" v-model="add_item_dialog_visible">
       <el-form :model="new_item_form">
         <el-form-item label="Title">
           <el-input
@@ -140,18 +143,23 @@
           ></el-input-number>
         </el-form-item>
       </el-form>
-      <div slot="footer" class="dialog-footer">
+      <template #footer>
         <el-button-group>
           <el-button @click="add_item_dialog_visible = false">Cancel</el-button>
           <el-button type="primary" @click="add_item">Create</el-button>
         </el-button-group>
-      </div>
+      </template>
     </el-dialog>
 
-    <el-dialog title="Edit Todo Item" :visible.sync="edit_item_dialog_visible">
+    <el-dialog title="Edit Todo Item" v-model="edit_item_dialog_visible">
       <el-form :model="edit_item_form">
         <el-form-item label="Title">
-          <el-input v-model="edit_item_form.title" autocomplete="off"></el-input>
+          <el-input
+            v-model="edit_item_form.title"
+            autocomplete="off"
+            maxlength="50"
+            show-word-limit
+          ></el-input>
         </el-form-item>
         <el-form-item label="Content">
           <el-input
@@ -173,19 +181,29 @@
           ></el-input-number>
         </el-form-item>
       </el-form>
-      <div slot="footer" class="dialog-footer">
+      <template #footer>
         <el-button-group>
           <el-button @click="edit_item_dialog_visible = false">Cancel</el-button>
           <el-button type="primary" @click="edit_item">Edit</el-button>
         </el-button-group>
-      </div>
+      </template>
     </el-dialog>
   </div>
 </template>
 
 <script>
+import { Check, Edit, Menu as MenuIcon, Minus, Plus, Warning } from "@element-plus/icons-vue";
+
 export default {
   name: "App",
+  components: {
+    Check,
+    Edit,
+    MenuIcon,
+    Minus,
+    Plus,
+    Warning,
+  },
   data() {
     return {
       active_list: new Array(),
@@ -205,7 +223,6 @@ export default {
       },
       edit_id: 0,
       first_entry: true,
-      list_id: 0,
       process: 0,
       open_item: new Array(),
     };
@@ -221,7 +238,13 @@ export default {
   mounted() {
     window.todo_list_change_callback = (val) => {
       this.todo_list = val;
+      if (val && val.finished) {
+        this.get_list();
+      }
     };
+    this.$socket_io.on("todo_error", (error) => {
+      this.$message.error(error.message || "Server error");
+    });
     this.get_list();
   },
   methods: {
@@ -248,15 +271,13 @@ export default {
         confirmButtonText: "Add",
         cancelButtonText: "Cancel",
       }).then(({ value }) => {
-        value = value.substr(0, 50);
-
         this.$axios
-          .post(`/api/list/${value}`)
+          .post("/api/list", { name: value })
           .then(() => {
             this.$message.success("Success");
             this.get_list();
           })
-          .error(() => {
+          .catch(() => {
             this.$message.error("Server error");
           });
       });
@@ -288,7 +309,11 @@ export default {
     },
     add_item() {
       this.add_item_dialog_visible = false;
-      this.$socket_io.emit("add", this.new_item_form);
+      this.$socket_io.emit("add", this.new_item_form, (result) => {
+        if (!result || !result.ok) {
+          this.$message.error(result?.error?.message || "Server error");
+        }
+      });
     },
     finish_item(index, tar_finished) {
       let req = {
@@ -297,22 +322,24 @@ export default {
         importance: this.todo_list.list[index].importance,
         finished: tar_finished,
       };
-      this.$socket_io.emit("edit", index, req);
+      this.$socket_io.emit("edit", this.todo_list.list[index].id, req, (result) => {
+        if (!result || !result.ok) {
+          this.$message.error(result?.error?.message || "Server error");
+        }
+      });
       this.open_item.splice(this.open_item.indexOf(index), 1);
     },
-    look(name) {
+    look(id) {
       this.first_entry = false;
-      for (let i in this.active_list) {
-        if (this.active_list[i].name == name) {
-          this.list_id = i;
-          break;
+      this.$socket_io.emit("look", id, (result) => {
+        if (!result || !result.ok) {
+          this.first_entry = true;
+          this.$message.error(result?.error?.message || "Todo list not found");
         }
-      }
-
-      this.$socket_io.emit("look", name);
+      });
     },
     show_edit_item(index) {
-      this.edit_id = index;
+      this.edit_id = this.todo_list.list[index].id;
       this.edit_item_form = {
         title: this.todo_list.list[index].title,
         content: this.todo_list.list[index].content,
@@ -323,11 +350,15 @@ export default {
     },
     edit_item() {
       this.edit_item_dialog_visible = false;
-      this.$socket_io.emit("edit", this.edit_id, this.edit_item_form);
+      this.$socket_io.emit("edit", this.edit_id, this.edit_item_form, (result) => {
+        if (!result || !result.ok) {
+          this.$message.error(result?.error?.message || "Server error");
+        }
+      });
     },
     achieve_list() {
       this.$confirm(
-        "This operation will achieve this Todo list, Sure? (The log can still be found in the backend json file)",
+        "This operation will achieve this Todo list, Sure? (The data is stored in SQLite)",
         "Warning",
         {
           confirmButtonText: "Confirm",
@@ -339,9 +370,14 @@ export default {
           type: "success",
           message: "Achieved",
         });
-        this.get_list();
-        this.first_entry = true;
-        this.$socket_io.emit("achieve_list");
+        this.$socket_io.emit("achieve_list", (result) => {
+          if (!result || !result.ok) {
+            this.$message.error(result?.error?.message || "Server error");
+            return;
+          }
+          this.get_list();
+          this.first_entry = true;
+        });
       });
     },
     collapse_all_item() {

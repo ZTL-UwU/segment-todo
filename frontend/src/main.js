@@ -1,9 +1,8 @@
-import Vue from 'vue';
+import { createApp } from 'vue';
 import App from './App.vue';
 
-import IO from 'socket.io-client';
-const io = IO();
-Vue.prototype.$socket_io = io;
+import { io as connect } from 'socket.io-client';
+const io = connect();
 
 Object.defineProperty(window, 'todo_list_change_callback', {
   value: () => {},
@@ -15,17 +14,12 @@ io.on('set', (content) => {
 });
 
 import axios from 'axios';
-Vue.prototype.$axios = axios;
-
-Vue.config.productionTip = false;
-
-import './assets/element/index.css';
-import locale from 'element-ui/lib/locale/lang/en';
-import ElementUI from 'element-ui';
-Vue.use(ElementUI, { locale });
-
+import ElementPlus from 'element-plus';
+import 'element-plus/dist/index.css';
 import './assets/css/basic.css';
 
-new Vue({
-  render: h => h(App),
-}).$mount('#app');
+const app = createApp(App);
+app.config.globalProperties.$socket_io = io;
+app.config.globalProperties.$axios = axios;
+app.use(ElementPlus);
+app.mount('#app');

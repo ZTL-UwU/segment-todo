@@ -1,15 +1,15 @@
-# frontend
+# Segment Todo frontend
 
 ## Project setup
 
 ```sh
-npm install
+npm ci
 ```
 
 ### Compiles and hot-reloads for development
 
 ```sh
-npm run serve
+npm run dev
 ```
 
 ### Compiles and minifies for production
@@ -24,6 +24,5 @@ npm run build
 npm run lint
 ```
 
-### Customize configuration
-
-See [Configuration Reference](https://cli.vuejs.org/config/).
+The development server proxies `/api` and Socket.IO to the backend at
+`http://127.0.0.1:3000`.

@@ -4,7 +4,10 @@
   "description": "Simple live todo list for group project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=24.15.0"
   },
   "keywords": [
     "Web",
@@ -15,7 +18,7 @@
   "author": "zhangtianli2006",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.17.1",
-    "socket.io": "^3.1.0"
+    "express": "^5.2.1",
+    "socket.io": "^4.8.1"
   }
 }

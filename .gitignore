@@ -5,7 +5,8 @@
 node_modules/
 build/
 
-todo.json
+todo.sqlite
+todo.sqlite-*
 
 # Vue
 .DS_Store
